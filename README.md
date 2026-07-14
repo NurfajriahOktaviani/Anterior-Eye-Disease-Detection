@@ -44,7 +44,7 @@ The preprocessing pipeline includes image quality assurance, CLAHE enhancement, 
 # 🏗 Project Architecture / Research Workflow
 
 <p align="center">
-<img src="docs/architecture.png" width="900">
+<img src="architecture.png" width="900">
 </p>
 
 The overall workflow consists of:
