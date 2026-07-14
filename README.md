@@ -1,6 +1,5 @@
 # Automatic Anterior Eye Disease Detection Using YOLOV12 with CBAM and ECA Attention Mechanisms
 
-Official implementation of the undergraduate thesis:
 
 **"Automatic Anterior Eye Disease Detection Using YOLOV12 with CBAM and ECA Attention Mechanisms"**
 
@@ -104,7 +103,7 @@ pip install -r requirements.txt
 
 ## Dataset
 
-The dataset consists of **2,298 anterior eye images** collected from a public Kaggle dataset.
+The dataset consists of **2,298 anterior eye images** collected from a public Mendeley dataset.
 
 ### Disease Classes
 
