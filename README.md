@@ -6,38 +6,50 @@ Official implementation of the undergraduate thesis:
 
 ---
 
-## 📋 Overview
+# 📋 Overview
 
-Anterior eye diseases such as cataract, conjunctivitis, uveitis, and eyelid disorders are among the leading causes of visual impairment worldwide. Early diagnosis is important to prevent disease progression and improve treatment outcomes. However, manual examination requires experienced ophthalmologists and is often time-consuming.
+Anterior eye diseases such as cataract, conjunctivitis, uveitis, and eyelid disorders are among the leading causes of visual impairment worldwide. Delayed diagnosis may lead to decreased visual function and reduced quality of life. Therefore, an automatic computer vision-based detection system is required to assist early disease identification.
 
-This research proposes an automatic anterior eye disease detection system using **YOLOV12** enhanced with two attention mechanisms: **Convolutional Block Attention Module (CBAM)** and **Efficient Channel Attention (ECA)**. The research follows the **CRISP-DM** methodology, consisting of Business Understanding, Data Understanding, Data Preparation, Modeling, Evaluation, and Deployment.
+This research proposes an automatic anterior eye disease detection framework using **YOLOV12** combined with two attention mechanisms: **Convolutional Block Attention Module (CBAM)** and **Efficient Channel Attention (ECA)**. The objective is to improve feature extraction capability while maintaining real-time inference performance.
 
-The preprocessing pipeline includes image quality assurance, CLAHE enhancement, Unsharp Masking, data augmentation, and smooth balancing. The models are evaluated using Precision, Recall, F1-score, and Mean Average Precision (mAP). Explainable Artificial Intelligence (XAI) using Grad-CAM is also employed to visualize the model's attention. The final model is deployed on a VPS through FastAPI REST API and integrated into a Flutter mobile application.
+The research follows the **CRISP-DM** methodology consisting of:
+
+- Business Understanding
+- Data Understanding
+- Data Preparation
+- Modeling
+- Evaluation
+- Deployment
+
+Image preprocessing consists of quality assurance, image enhancement using CLAHE and Unsharp Masking, smooth balancing, and data augmentation. Model performance is evaluated using Precision, Recall, F1-score, mAP50, and mAP50-95. Explainable Artificial Intelligence (XAI) using Grad-CAM is employed to visualize the model's attention during prediction. The final model is deployed on a Virtual Private Server (VPS) through FastAPI REST API and integrated with a Flutter mobile application.
 
 ---
 
-## ✨ Key Features
+# ✨ Key Features
 
-- Automatic detection of anterior eye diseases
+- Automatic anterior eye disease detection
 - YOLOV12 object detection framework
-- Comparison of CBAM and ECA attention mechanisms
-- Image preprocessing using CLAHE and Unsharp Masking
-- Data augmentation with Albumentations
+- Comparison between CBAM and ECA attention mechanisms
+- CLAHE image enhancement
+- Unsharp Masking image sharpening
 - Smooth balancing for class distribution
+- Data augmentation using Albumentations
 - Explainable AI using Grad-CAM
 - FastAPI REST API deployment
-- Flutter mobile application integration
+- Flutter mobile application
+- VPS deployment
 - Real-time inference
 
 ---
 
-## 🎯 Key Contributions
+# 🎯 Key Contributions
 
 - Developed an automatic anterior eye disease detection framework based on YOLOV12.
-- Compared the performance of CBAM and ECA attention mechanisms.
-- Designed a complete preprocessing pipeline consisting of image quality verification, enhancement, augmentation, and balancing.
+- Proposed the integration of CBAM into the YOLOV12 architecture for improved feature attention.
+- Compared CBAM and ECA attention mechanisms on the same dataset.
+- Designed a complete preprocessing pipeline including image enhancement, augmentation, and smooth balancing.
 - Improved model interpretability using Grad-CAM visualization.
-- Successfully deployed the model on VPS and integrated it with a Flutter mobile application.
+- Successfully deployed the detection model on VPS and integrated it with a Flutter mobile application.
 
 ---
 
@@ -47,12 +59,12 @@ The preprocessing pipeline includes image quality assurance, CLAHE enhancement, 
 <img src="architecture.png" width="900">
 </p>
 
-The overall workflow consists of:
+Research workflow:
 
 1. Business Understanding
 2. Data Understanding
 3. Data Preparation
-4. Modeling (YOLOV12 + CBAM / YOLOV12 + ECA)
+4. Modeling
 5. Evaluation
 6. Deployment
 
@@ -63,18 +75,20 @@ The overall workflow consists of:
 ## Requirements
 
 - Python 3.11
-- CUDA 11.8
+- CUDA 11.8+
 - PyTorch
 - Ultralytics YOLO
 - OpenCV
 - Albumentations
 - FastAPI
+- Uvicorn
 - Flutter SDK
 
 ## Clone Repository
 
 ```bash
 git clone https://github.com/NurfajriahOktaviani/Anterior-Eye-Disease-Detection.git
+
 cd Anterior-Eye-Disease-Detection
 ```
 
@@ -90,27 +104,36 @@ pip install -r requirements.txt
 
 ## Dataset
 
-The dataset consists of **2,298 anterior eye images** with five disease categories.
+The dataset consists of **2,298 anterior eye images** collected from a public Kaggle dataset.
 
-| Class |
-|-------|
-| Cataract |
-| Conjunctivitis |
-| Eyelid |
-| Normal |
-| Uveitis |
+### Disease Classes
 
-Image preprocessing includes:
+- Cataract
+- Conjunctivitis
+- Eyelid
+- Normal
+- Uveitis
 
-- Blur Quality Verification
-- Duplicate Verification
-- CLAHE
+### Annotation Format
+
+- JPG / PNG images
+- YOLO Annotation (.txt)
+
+### Data Preparation Pipeline
+
+The preprocessing pipeline includes:
+
+- Dataset quality verification
+- Blur image inspection
+- Duplicate image inspection
+- Annotation verification
+- CLAHE enhancement
 - Unsharp Masking
-- Data Augmentation
-- Smooth Balancing
-- Dataset Splitting
+- Smooth balancing
+- Data augmentation
+- Dataset splitting (Train, Validation, Test)
 
-Dataset format:
+Dataset structure:
 
 ```
 dataset/
@@ -124,7 +147,7 @@ dataset/
 
 # 🏋 Training
 
-Training configuration:
+### Training Configuration
 
 | Parameter | Value |
 |------------|---------|
@@ -134,6 +157,8 @@ Training configuration:
 | Optimizer | AdamW |
 | Scheduler | Cosine Learning Rate |
 | Warmup Epoch | 3 |
+| Early Stopping | Enabled |
+| Weight Decay | Enabled |
 
 Training command
 
@@ -141,9 +166,9 @@ Training command
 python train.py
 ```
 
-or execute the notebook:
+or
 
-```
+```bash
 notebooks/02_training.ipynb
 ```
 
@@ -151,36 +176,67 @@ notebooks/02_training.ipynb
 
 # 📊 Results
 
-Performance comparison
+Model evaluation was performed using the **pure test dataset**. Three models were compared: the baseline YOLOV12, YOLOV12 enhanced with CBAM, and YOLOV12 enhanced with ECA.
 
-| Model | mAP50 | Precision | Recall | F1-score |
-|--------|--------|-----------|---------|-----------|
-| YOLOV12 + CBAM | **0.917** | **0.916** | **0.857** | **0.886** |
-| YOLOV12 + ECA | 0.884 | - | - | 0.860 |
+## Performance Comparison
 
-Evaluation includes:
+| Model | mAP50 | mAP50-95 | Precision | Recall | F1-score | Inference Speed | Parameters |
+|--------|--------|----------|-----------|--------|----------|-----------------|------------|
+| YOLOV12 (Baseline) | 0.6148 | 0.5365 | 0.6108 | 0.6133 | 0.6120 | - | 2,520,639 |
+| **YOLOV12 + CBAM (Proposed)** | **0.6401** | **0.5561** | **0.7157** | 0.5925 | **0.6483** | 4.5 ms/image (~222 FPS) | 2,531,075 |
+| YOLOV12 + ECA | 0.6235 | 0.5439 | 0.6400 | **0.6180** | 0.6288 | **4.4 ms/image (~238 FPS)** | 2,520,649 |
 
-- Precision Curve
-- Recall Curve
-- F1 Curve
+### Performance Summary
+
+The proposed **YOLOV12+CBAM** achieved the highest overall detection performance with the best mAP50, mAP50-95, Precision, and F1-score. Although the ECA model achieved slightly higher Recall and faster inference speed, CBAM produced more reliable predictions by focusing on the most relevant spatial and channel features.
+
+### Evaluation Outputs
+
+- Precision-Confidence Curve
+- Recall-Confidence Curve
+- F1-Confidence Curve
 - Precision-Recall Curve
 - Confusion Matrix
 - Grad-CAM Visualization
+- Performance Comparison
+- Flutter Application Testing
+- VPS REST API Deployment
 
 ---
 
 # 📁 Project Structure
 
 ```
-Anterior-Eye-Disease-Detection
+Anterior-Eye-Disease-Detection/
 │
 ├── dataset/
-├── notebooks/
+│   ├── train/
+│   ├── valid/
+│   └── test/
+│
 ├── preprocessing/
-├── deployment/
+│   ├── clahe/
+│   ├── unsharp_mask/
+│   ├── augmentation/
+│   └── smooth_balancing/
+│
+├── notebooks/
+│
 ├── models/
-├── docs/
+│   ├── yolov12_base/
+│   ├── yolov12_cbam/
+│   └── yolov12_eca/
+│
+├── deployment/
+│   ├── fastapi/
+│   └── flutter/
+│
 ├── results/
+│   ├── confusion_matrix/
+│   ├── curves/
+│   ├── gradcam/
+│   └── comparison/
+│
 ├── requirements.txt
 └── README.md
 ```
@@ -206,24 +262,26 @@ If you use this work, please cite:
 
 This research was conducted under:
 
-- **Big Data Laboratory**
-- **Information Systems Study Program**
-- **Faculty of Engineering and Informatics**
-- **Universitas Multimedia Nusantara**
+- Big Data Laboratory
+- Information Systems Study Program
+- Faculty of Engineering and Informatics
+- Universitas Multimedia Nusantara
 
 Special thanks to:
 
 - Ultralytics
 - Kaggle Dataset Provider
 - OpenCV Community
+- Albumentations
+- PyTorch Community
 
 ---
 
 # 📧 Contact
 
-**Author**
+**Nurfajriah Oktaviani**
 
-Nurfajriah Oktaviani
+Information Systems
 
 Universitas Multimedia Nusantara
 
