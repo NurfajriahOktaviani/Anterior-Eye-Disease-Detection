@@ -269,7 +269,7 @@ This research was conducted under:
 Special thanks to:
 
 - Ultralytics
-- Kaggle Dataset Provider
+- Mendeley Dataset Provider
 - OpenCV Community
 - Albumentations
 - PyTorch Community
