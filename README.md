@@ -55,7 +55,7 @@ Image preprocessing consists of quality assurance, image enhancement using CLAHE
 # 🏗 Project Architecture / Research Workflow
 
 <p align="center">
-<img src="architecture.png" width="900">
+<img src="project architecture.png" width="900">
 </p>
 
 Research workflow:
